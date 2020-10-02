@@ -53,13 +53,22 @@ class OnlyUpperCaseValidator(object):
             errors.append(self.MESSAGE)
 
 
+class MaxValidator(object):
+    MESSAGE = "You must enter a value less than {max_value}"
+
+    def validate(self, value, condition_value, errors):
+        if value > condition_value:
+            errors.append(self.MESSAGE.format(max_value=condition_value))
+
 
 class ValidatorType(Enum):
     REQUIRED = (1, RequiredValidator())
     DATE = (2, DateValidator())
     MIN = (3, MinValidator())
     MIN_LENGTH = (4, MinLengthValidator())
-    MAX = (5, MaxLengthValidator())
+    MAX_LENGTH = (5, MaxLengthValidator())
+    UPPERCASE = (6, OnlyUpperCaseValidator())
+    MAX = (7, MaxValidator())
 
     def __init__(self, code, validator_instance):
         self.code = code
