@@ -37,11 +37,20 @@ class MinLengthValidator(object):
             errors.append(self.MESSAGE.format(max_length=condition_value))
 
 
+class MaxValidator(object):
+    MESSAGE = "The value mast be less than {max_value}"
+
+    def validate(self, value, condition_value, errors):
+        if value > condition_value:
+            errors.append(self.MESSAGE.format(max_value=condition_value))
+
+
 class ValidatorType(Enum):
     REQUIRED = (1, RequiredValidator())
     DATE = (2, DateValidator())
     MIN = (3, MinValidator())
     MIN_LENGTH = (4, MinLengthValidator())
+    MAX = (5, MaxValidator())
 
     def __init__(self, code, validator_instance):
         self.code = code
