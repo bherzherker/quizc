@@ -37,12 +37,21 @@ class MinLengthValidator(object):
             errors.append(self.MESSAGE.format(max_length=condition_value))
 
 
-class MaxValidator(object):
-    MESSAGE = "The value mast be less than {max_value}"
+class MaxLengthValidator(object):
+    MESSAGE = "The value length must be greater than {min_length}"
 
     def validate(self, value, condition_value, errors):
-        if value > condition_value:
-            errors.append(self.MESSAGE.format(max_value=condition_value))
+        if len(value) > condition_value:
+            errors.append(self.MESSAGE.format(min_length=condition_value))
+
+
+class OnlyUpperCaseValidator(object):
+    MESSAGE = "Yous must write with uppercase"
+
+    def validate(self, value, condition_value, errors):
+        if value != value.upper():
+            errors.append(self.MESSAGE)
+
 
 
 class ValidatorType(Enum):
@@ -50,7 +59,7 @@ class ValidatorType(Enum):
     DATE = (2, DateValidator())
     MIN = (3, MinValidator())
     MIN_LENGTH = (4, MinLengthValidator())
-    MAX = (5, MaxValidator())
+    MAX = (5, MaxLengthValidator())
 
     def __init__(self, code, validator_instance):
         self.code = code
